@@ -1,27 +1,23 @@
 package org.isi.frc.dba.gitano.service.stock.entities;
-
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 @Entity
 public class Autoparte {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Basic
     private String codigo;
 
-    @Basic
     private String descripcion;
 
     @Column(name = "parte_motor")
@@ -30,8 +26,13 @@ public class Autoparte {
     @Column(name = "precio_unitario")
     private double precioUnitario;
 
-    @Basic
     private int stock;
+
+    @OneToMany(mappedBy = "autoparte", fetch = FetchType.LAZY)
+    private Set<Auto> autos = new HashSet<>();
+
+    @OneToMany(mappedBy = "autoparte", fetch = FetchType.LAZY)
+    private Set<Pais> paises = new HashSet<>();
 
 
 }
